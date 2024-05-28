@@ -35,7 +35,7 @@ import java.util.List;
 
 public abstract class BaseView extends View implements View.OnClickListener, View.OnLongClickListener {
 
-    CalendarViewDelegate mDelegate;
+    protected CalendarViewDelegate mDelegate;
 
     /**
      * 当前月份日期的笔
@@ -76,6 +76,9 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
      * 被选择的日期背景色
      */
     protected Paint mSelectedPaint = new Paint();
+
+    @Nullable
+    protected Paint mUnSelectedPaint = null;
 
     /**
      * 标记的文本画笔
@@ -270,6 +273,15 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
 
         this.mSelectedPaint.setStyle(Paint.Style.FILL);
         this.mSelectedPaint.setColor(mDelegate.getSelectedThemeColor());
+
+        int calendarItemBgColor = mDelegate.getCalendarItemBgColor();
+        if (calendarItemBgColor != -1) {
+            mUnSelectedPaint = new Paint();
+            mUnSelectedPaint.setAntiAlias(true);
+            mUnSelectedPaint.setStyle(Paint.Style.FILL);
+            this.mUnSelectedPaint.setStyle(Paint.Style.FILL);
+            this.mUnSelectedPaint.setColor(calendarItemBgColor);
+        }
     }
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")

@@ -233,7 +233,7 @@ public class CalendarLayout extends LinearLayout {
             mContentViewTranslateY = 5 * mItemHeight;
         } else {
             mContentViewTranslateY = CalendarUtil.getMonthViewHeight(calendar.getYear(),
-                    calendar.getMonth(), mItemHeight, mDelegate.getWeekStart())
+                    calendar.getMonth(), mItemHeight, mDelegate.getWeekStart(), mDelegate.getCalendarItemMarginVertical())
                     - mItemHeight;
         }
         //已经显示周视图，则需要动态平移contentView的高度
@@ -257,7 +257,7 @@ public class CalendarLayout extends LinearLayout {
             mContentViewTranslateY = 5 * mItemHeight;
         } else {
             mContentViewTranslateY = CalendarUtil.getMonthViewHeight(calendar.getYear(), calendar.getMonth(),
-                    mItemHeight, mDelegate.getWeekStart()) - mItemHeight;
+                    mItemHeight, mDelegate.getWeekStart(), mDelegate.getCalendarItemMarginVertical()) - mItemHeight;
         }
         translationViewPager();
         if (mWeekPager.getVisibility() == VISIBLE) {
@@ -506,7 +506,7 @@ public class CalendarLayout extends LinearLayout {
                     return false;
                 }
 
-                if (Math.abs(dy) > Math.abs(dx) ) { //纵向滑动距离大于横向滑动距离,拦截滑动事件
+                if (Math.abs(dy) > Math.abs(dx)) { //纵向滑动距离大于横向滑动距离,拦截滑动事件
                     if ((dy > 0 && mContentView.getTranslationY() <= 0)
                             || (dy < 0 && mContentView.getTranslationY() >= -mContentViewTranslateY)) {
                         mLastY = y;

@@ -13,16 +13,16 @@ public class CalendarUtilTest {
     @Test
     public void getMonthViewHeight() throws Exception {
         //周一起始
-        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 4, 1, 1));
-        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 5, 1, 1));
-        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 6, 1, 1));
-        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 9, 1, 1));
+        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 4, 1, 1,10));
+        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 5, 1, 1,10));
+        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 6, 1, 1,10));
+        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 9, 1, 1,10));
 
         //周一起始
-        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 4, 1, 2));
-        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 5, 1, 2));
-        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 6, 1, 2));
-        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 7, 1, 2));
+        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 4, 1, 2,10));
+        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 5, 1, 2,10));
+        assertEquals(5, CalendarUtil.getMonthViewHeight(2018, 6, 1, 2,10));
+        assertEquals(6, CalendarUtil.getMonthViewHeight(2018, 7, 1, 2,10));
     }
 
     /**

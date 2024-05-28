@@ -140,7 +140,8 @@ final class CalendarViewDelegate {
             mSelectedTextColor,
             mSelectedLunarTextColor,
             mCurMonthLunarTextColor,
-            mOtherMonthLunarTextColor;
+            mOtherMonthLunarTextColor,
+            mCalendarItemBgColor = -1;
 
     private boolean preventLongPressedSelected;
 
@@ -175,6 +176,15 @@ final class CalendarViewDelegate {
      * 日历内部右padding
      */
     private int mCalendarPaddingRight;
+
+    /**
+     * 日历内全部 item 的水平间距
+     */
+    private int mCalendarItemMarginHorizontal;
+    /**
+     * 日历内部 item 的垂直间距
+     */
+    private int mCalendarItemMarginVertical;
 
     /**
      * 年视图字体大小
@@ -335,6 +345,8 @@ final class CalendarViewDelegate {
      */
     CalendarView.OnClickCalendarPaddingListener mClickCalendarPaddingListener;
 
+    CalendarView.OnClickCalendarItemMarginListener mClickCalendarItemMarginListener;
+
     /**
      * 日期拦截事件
      */
@@ -425,6 +437,9 @@ final class CalendarViewDelegate {
         mCalendarPadding = (int) array.getDimension(R.styleable.CalendarView_calendar_padding, 0);
         mCalendarPaddingLeft = (int) array.getDimension(R.styleable.CalendarView_calendar_padding_left, 0);
         mCalendarPaddingRight = (int) array.getDimension(R.styleable.CalendarView_calendar_padding_right, 0);
+        mCalendarItemMarginHorizontal = (int) array.getDimension(R.styleable.CalendarView_calendar_item_margin_horizontal, 0);
+        mCalendarItemMarginVertical = (int) array.getDimension(R.styleable.CalendarView_calendar_item_margin_vertical, 0);
+        mCalendarItemBgColor = array.getColor(R.styleable.CalendarView_calendar_item_bg_color, mCalendarItemBgColor);
 
         if (mCalendarPadding != 0) {
             mCalendarPaddingLeft = mCalendarPadding;
@@ -1185,5 +1200,17 @@ final class CalendarViewDelegate {
         }
         addSchemesFromMap(calendars);
         return calendars;
+    }
+
+    int getCalendarItemMarginHorizontal() {
+        return mCalendarItemMarginHorizontal;
+    }
+
+    int getCalendarItemMarginVertical() {
+        return mCalendarItemMarginVertical;
+    }
+
+    public int getCalendarItemBgColor() {
+        return mCalendarItemBgColor;
     }
 }

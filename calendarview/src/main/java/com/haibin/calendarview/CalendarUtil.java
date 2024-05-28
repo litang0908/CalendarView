@@ -105,37 +105,38 @@ public final class CalendarUtil {
      * 获取月视图的确切高度
      * Test pass
      *
-     * @param year       年
-     * @param month      月
-     * @param itemHeight 每项的高度
+     * @param year          年
+     * @param month         月
+     * @param itemHeight    每项的高度
      * @param weekStartWith 周起始
      * @return 不需要多余行的高度
      */
-    public static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith) {
+    public static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith,int itemMarginVertical) {
         java.util.Calendar date = java.util.Calendar.getInstance();
         date.set(year, month - 1, 1, 12, 0, 0);
         int preDiff = getMonthViewStartDiff(year, month, weekStartWith);
         int monthDaysCount = getMonthDaysCount(year, month);
         int nextDiff = getMonthEndDiff(year, month, monthDaysCount, weekStartWith);
-        return (preDiff + monthDaysCount + nextDiff) / 7 * itemHeight;
+        int rowCount=(preDiff + monthDaysCount + nextDiff) / 7;
+        return rowCount* itemHeight+(rowCount-1)*itemMarginVertical;
     }
 
     /**
      * 获取月视图的确切高度
      * Test pass
      *
-     * @param year       年
-     * @param month      月
-     * @param itemHeight 每项的高度
+     * @param year          年
+     * @param month         月
+     * @param itemHeight    每项的高度
      * @param weekStartWith weekStartWith
-     * @param mode  mode
+     * @param mode          mode
      * @return 不需要多余行的高度
      */
-    public static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith, int mode) {
+    public static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith, int mode, int itemMarginVertical) {
         if (mode == CalendarViewDelegate.MODE_ALL_MONTH) {
             return itemHeight * 6;
         }
-        return getMonthViewHeight(year, month, itemHeight, weekStartWith);
+        return getMonthViewHeight(year, month, itemHeight, weekStartWith,itemMarginVertical);
     }
 
     /**
@@ -415,7 +416,7 @@ public final class CalendarUtil {
      * @param minYearMonth maxYear 最小年份月份，like : 2017-07
      * @param minYearDay   最小年份天
      * @param week         从最小年份minYear月minYearMonth 日1 开始的第几周 week > 0
-     * @param weekStart 周起始
+     * @param weekStart    周起始
      * @return 该星期的第一天日期
      */
     public static Calendar getFirstCalendarStartWithMinCalendar(int minYear, int minYearMonth, int minYearDay, int week, int weekStart) {

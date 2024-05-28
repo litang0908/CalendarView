@@ -68,9 +68,12 @@ public abstract class BaseMonthView extends BaseView {
         mYear = year;
         mMonth = month;
         initCalendar();
-        mHeight = CalendarUtil.getMonthViewHeight(year, month, mItemHeight, mDelegate.getWeekStart(),
-                mDelegate.getMonthViewShowMode());
+        refreshHeight();
+    }
 
+    protected void refreshHeight() {
+        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
+                mDelegate.getMonthViewShowMode(), mDelegate.getCalendarItemMarginVertical());
     }
 
     /**
@@ -119,11 +122,14 @@ public abstract class BaseMonthView extends BaseView {
             onClickCalendarPadding();
             return null;
         }
-        int indexX = (int) (mX - mDelegate.getCalendarPaddingLeft()) / mItemWidth;
-        if (indexX >= 7) {
-            indexX = 6;
+        int indexX = getIndexX();
+        int indexY = getIndexY();
+
+        if (isClickItemMarginHorizontal(indexX) || isClickItemMarginVertical(indexY)) {
+            onClickCalendarItemMargin(indexX, indexY);
+            return null;
         }
-        int indexY = (int) mY / mItemHeight;
+
         int position = indexY * 7 + indexX;// 选择项
         if (position >= 0 && position < mItems.size()) {
             return mItems.get(position);
@@ -131,16 +137,71 @@ public abstract class BaseMonthView extends BaseView {
         return null;
     }
 
+    /**
+     * 是否点击了 Item 水平间距区域
+     *
+     * @param indexX
+     * @return
+     */
+    private boolean isClickItemMarginHorizontal(int indexX) {
+        //是否点击了 Item 水平间距区域
+        int itemLeft = mDelegate.getCalendarPaddingLeft() + indexX * (mItemWidth + mDelegate.getCalendarItemMarginHorizontal());
+        int itemRight = itemLeft + mItemWidth;
+        int marginRight = itemRight + mDelegate.getCalendarItemMarginHorizontal();
+        return mX > itemRight && mX < marginRight;
+    }
+
+    /**
+     * 是否点击了 Item 的垂直间距区域
+     *
+     * @param indexY
+     * @return
+     */
+    private boolean isClickItemMarginVertical(int indexY) {
+        //是否点击了 Item 垂直间距区域
+        int top = indexY * (mItemHeight + mDelegate.getCalendarItemMarginVertical());
+        int itemBottom = top + mItemHeight;
+        int marginBottom = itemBottom + mDelegate.getCalendarItemMarginVertical();
+        return mY > itemBottom && mY < marginBottom;
+    }
+
+    /**
+     * 根据点击的位置 mX，计算所属的 行，公式为 mX= mDelegate.getCalendarPaddingLeft()+indexX*mItemWidth+indexX*mDelegate.getCalendarItemMarginHorizontal();
+     * 公式为 mX= mDelegate.getCalendarPaddingLeft()+indexX*(mItemWidth+mDelegate.getCalendarItemMarginHorizontal());
+     *
+     * @return
+     */
+    private int getIndexX() {
+        int indexX = (int) (mX - mDelegate.getCalendarPaddingLeft()) / (mItemWidth + mDelegate.getCalendarItemMarginHorizontal());
+        if (indexX >= 7) {
+            indexX = 6;
+        }
+        return indexX;
+    }
+
+    /**
+     * 根据点击的位置 mY，计算所属的 列，公式为 mY= indexY*mItemHeight+indexY*mDelegate.getCalendarItemMarginVertical();
+     *
+     * @return
+     */
+    private int getIndexY() {
+        return (int) mY / (mItemHeight + mDelegate.getCalendarItemMarginVertical());
+    }
+
+    private void onClickCalendarItemMargin(int indexX, int indexY) {
+        if (mDelegate.mClickCalendarItemMarginListener == null) {
+            return;
+        }
+        mDelegate.mClickCalendarItemMarginListener.onClickCalendarItemMargin(mX, mY, indexX, indexY, true, null, null);
+    }
+
     private void onClickCalendarPadding() {
         if (mDelegate.mClickCalendarPaddingListener == null) {
             return;
         }
         Calendar calendar = null;
-        int indexX = (int) (mX - mDelegate.getCalendarPaddingLeft()) / mItemWidth;
-        if (indexX >= 7) {
-            indexX = 6;
-        }
-        int indexY = (int) mY / mItemHeight;
+        int indexX = getIndexX();
+        int indexY = getIndexY();
         int position = indexY * 7 + indexX;// 选择项
         if (position >= 0 && position < mItems.size()) {
             calendar = mItems.get(position);
@@ -181,8 +242,7 @@ public abstract class BaseMonthView extends BaseView {
     final void updateShowMode() {
         mLineCount = CalendarUtil.getMonthViewLineCount(mYear, mMonth,
                 mDelegate.getWeekStart(), mDelegate.getMonthViewShowMode());
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
-                mDelegate.getMonthViewShowMode());
+        refreshHeight();
         invalidate();
     }
 
@@ -191,15 +251,13 @@ public abstract class BaseMonthView extends BaseView {
      */
     final void updateWeekStart() {
         initCalendar();
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
-                mDelegate.getMonthViewShowMode());
+        refreshHeight();
     }
 
     @Override
     void updateItemHeight() {
         super.updateItemHeight();
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
-                mDelegate.getMonthViewShowMode());
+        refreshHeight();
     }
 
 

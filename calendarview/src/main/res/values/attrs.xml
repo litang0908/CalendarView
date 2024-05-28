@@ -5,6 +5,8 @@
         <attr name="calendar_padding" format="dimension" /><!--日历内部左右padding-->
         <attr name="calendar_padding_left" format="dimension" /><!--日历内部左padding-->
         <attr name="calendar_padding_right" format="dimension" /><!--日历内部右padding-->
+        <attr name="calendar_item_margin_horizontal" format="dimension" /><!--日历内部水平 margin -->
+        <attr name="calendar_item_margin_vertical" format="dimension" /><!--日历内部垂直 margin -->
 
 
         <attr name="week_background" format="color" /><!--周背景-->
@@ -31,6 +33,7 @@
 
         <attr name="selected_theme_color" format="color" />
         <attr name="selected_text_color" format="color" />
+        <attr name="calendar_item_bg_color" format="color" />
         <attr name="selected_lunar_text_color" format="color" />
 
         <attr name="current_day_text_color" format="color" />

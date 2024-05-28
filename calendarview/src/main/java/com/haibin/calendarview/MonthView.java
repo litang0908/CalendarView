@@ -19,6 +19,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 /**
  * 月视图基础控件,可自由继承实现
  * Created by huanghaibin on 2017/11/15.
@@ -33,9 +35,11 @@ public abstract class MonthView extends BaseMonthView {
     protected void onDraw(Canvas canvas) {
         if (mLineCount == 0)
             return;
+        int cols = 7;
+        int marginH = (cols - 1) * mDelegate.getCalendarItemMarginHorizontal();
         mItemWidth = (getWidth() -
                 mDelegate.getCalendarPaddingLeft() -
-                mDelegate.getCalendarPaddingRight()) / 7;
+                mDelegate.getCalendarPaddingRight() - marginH) / cols;
         onPreviewHook();
         int count = mLineCount * 7;
         int d = 0;
@@ -67,17 +71,18 @@ public abstract class MonthView extends BaseMonthView {
      *
      * @param canvas   canvas
      * @param calendar 对应日历
-     * @param i        i
-     * @param j        j
+     * @param row      row
+     * @param col      col
      * @param d        d
      */
-    private void draw(Canvas canvas, Calendar calendar, int i, int j, int d) {
-        int x = j * mItemWidth + mDelegate.getCalendarPaddingLeft();
-        int y = i * mItemHeight;
+    protected void draw(Canvas canvas, Calendar calendar, int row, int col, int d) {
+        int x = col * mItemWidth + mDelegate.getCalendarPaddingLeft() + col * mDelegate.getCalendarItemMarginHorizontal();
+        int y = row * mItemHeight + row * mDelegate.getCalendarItemMarginVertical();
         onLoopStart(x, y);
         boolean isSelected = d == mCurrentItem;
         boolean hasScheme = calendar.hasScheme();
 
+        onDrawItemBg(canvas, calendar, x, y, hasScheme, isSelected);
         if (hasScheme) {
             //标记的日子
             boolean isDrawSelected = false;//是否继续绘制选中的onDrawScheme
@@ -95,6 +100,9 @@ public abstract class MonthView extends BaseMonthView {
             }
         }
         onDrawText(canvas, calendar, x, y, hasScheme, isSelected);
+    }
+
+    protected void onDrawItemBg(@NonNull Canvas canvas, @NonNull Calendar calendar, int x, int y, boolean hasScheme, boolean isSelected) {
     }
 
 

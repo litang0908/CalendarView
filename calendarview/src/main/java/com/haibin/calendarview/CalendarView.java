@@ -852,6 +852,21 @@ public class CalendarView extends FrameLayout {
     }
 
     /**
+     * 点击视图中间 margin 区域的事件
+     *
+     * @param listener
+     */
+    public final void setOnClickCalendarItemMarginListener(OnClickCalendarItemMarginListener listener) {
+        if (listener == null) {
+            mDelegate.mClickCalendarItemMarginListener = null;
+        }
+        if (listener == null) {
+            return;
+        }
+        mDelegate.mClickCalendarItemMarginListener = listener;
+    }
+
+    /**
      * 年份改变事件
      *
      * @param listener listener
@@ -1912,5 +1927,19 @@ public class CalendarView extends FrameLayout {
          */
         void onClickCalendarPadding(float x, float y, boolean isMonthView,
                                     Calendar adjacentCalendar, Object obj);
+    }
+
+    public interface OnClickCalendarItemMarginListener {
+        /**
+         * 点击Padding位置的事件
+         *
+         * @param x                x坐标
+         * @param y                y坐标
+         * @param isMonthView      是否是月视图，不是则为周视图
+         * @param adjacentCalendar 相邻的日历日期
+         * @param obj              此处的对象，自行设置
+         */
+        void onClickCalendarItemMargin(float x, float y, int indexX, int indexY, boolean isMonthView,
+                                       Calendar adjacentCalendar, Object obj);
     }
 }
