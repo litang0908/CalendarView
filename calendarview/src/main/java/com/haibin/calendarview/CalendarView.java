@@ -1942,4 +1942,9 @@ public class CalendarView extends FrameLayout {
         void onClickCalendarItemMargin(float x, float y, int indexX, int indexY, boolean isMonthView,
                                        Calendar adjacentCalendar, Object obj);
     }
+
+    @NonNull
+    public CalendarViewDelegate getDelegate() {
+        return mDelegate;
+    }
 }

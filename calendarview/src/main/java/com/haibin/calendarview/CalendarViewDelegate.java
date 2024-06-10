@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.Map;
  * Google规范化的属性委托,
  * 代码量多，但是不影响阅读性
  */
-final class CalendarViewDelegate {
+public final class CalendarViewDelegate {
 
     /**
      * 周起始：周日
@@ -981,7 +982,7 @@ final class CalendarViewDelegate {
     }
 
     @SuppressWarnings("unused")
-    int getCalendarPadding() {
+    public int getCalendarPadding() {
         return mCalendarPadding;
     }
 
@@ -991,7 +992,8 @@ final class CalendarViewDelegate {
         mCalendarPaddingRight = mCalendarPadding;
     }
 
-    int getCalendarPaddingLeft() {
+    @NonNull
+    public int getCalendarPaddingLeft() {
         return mCalendarPaddingLeft;
     }
 
@@ -999,7 +1001,8 @@ final class CalendarViewDelegate {
         this.mCalendarPaddingLeft = mCalendarPaddingLeft;
     }
 
-    int getCalendarPaddingRight() {
+    @NonNull
+    public int getCalendarPaddingRight() {
         return mCalendarPaddingRight;
     }
 
@@ -1202,11 +1205,11 @@ final class CalendarViewDelegate {
         return calendars;
     }
 
-    int getCalendarItemMarginHorizontal() {
+    public int getCalendarItemMarginHorizontal() {
         return mCalendarItemMarginHorizontal;
     }
 
-    int getCalendarItemMarginVertical() {
+    public int getCalendarItemMarginVertical() {
         return mCalendarItemMarginVertical;
     }
 
